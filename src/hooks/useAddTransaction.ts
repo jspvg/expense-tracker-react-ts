@@ -19,7 +19,7 @@ export const useAddTransaction = () => {
       description,
       transactionAmount,
       transactionType,
-      createdAt: serverTimestamp,
+      createdAt: serverTimestamp(),
     });
   };
   return { addTransaction };
