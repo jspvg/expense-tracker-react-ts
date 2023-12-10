@@ -8,3 +8,9 @@
 .card {
   padding: 2em;
 }
+
+.expenses-page {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+}
