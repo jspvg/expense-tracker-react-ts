@@ -48,7 +48,7 @@ const ExpenseTracker = () => {
         <button onClick={signUserOut}>Sign out</button>
         <div className="balance">
           <h4>{name}'s balance:</h4>
-          <p>${balance}</p>
+          {balance >= 0 ? <p>${balance}</p> : <p>-${balance * -1}</p>}
         </div>
       </div>
       <div className="expense-tracker">
@@ -72,6 +72,8 @@ const ExpenseTracker = () => {
             />
             <input
               type="number"
+              min="0"
+              step="0.01"
               placeholder="Transaction amount"
               required
               value={transactionAmount === 0 ? "" : transactionAmount}
@@ -89,7 +91,7 @@ const ExpenseTracker = () => {
                 />
               </label>
               <label htmlFor="income">
-                Income
+                Income{" "}
                 <input
                   type="radio"
                   id="income"
