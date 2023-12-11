@@ -5,6 +5,7 @@ import { useGetUserInfo } from "../../hooks/useGetUserInfo";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
 import { useNavigate } from "react-router-dom";
+import { useHandleBalance } from "../../hooks/useHandleBalance";
 
 const ExpenseTracker = () => {
   const [description, setDescription] = useState("");
@@ -14,6 +15,7 @@ const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
   const { transactions } = useGetTransactions();
   const { name, profilePicture } = useGetUserInfo();
+  const { balance, income, expenses } = useHandleBalance();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -46,7 +48,7 @@ const ExpenseTracker = () => {
         <button onClick={signUserOut}>Sign out</button>
         <div className="balance">
           <h4>{name}'s balance:</h4>
-          <p>$0.00</p>
+          <p>${balance}</p>
         </div>
       </div>
       <div className="expense-tracker">
@@ -54,10 +56,10 @@ const ExpenseTracker = () => {
           <h1> Expense Tracker</h1>
           <div className="summary">
             <div className="income">
-              <h4>Income $0.00</h4>
+              <h4>Income ${income}</h4>
             </div>
             <div className="expenses">
-              <h4>Expenses $0.00</h4>
+              <h4>Expenses ${expenses}</h4>
             </div>
           </div>
           <form className="add-transaction" onSubmit={onSubmit}>
