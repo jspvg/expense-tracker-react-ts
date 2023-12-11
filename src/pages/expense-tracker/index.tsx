@@ -1,11 +1,19 @@
 import { FormEvent, useState } from "react";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
+import { useGetTransactions } from "../../hooks/useGetTransactions";
+import { useGetUserInfo } from "../../hooks/useGetUserInfo";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase-config";
+import { useNavigate } from "react-router-dom";
 
 const ExpenseTracker = () => {
   const [description, setDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState(0);
   const [transactionType, setTransactionType] = useState("expense");
+  const navigate = useNavigate();
   const { addTransaction } = useAddTransaction();
+  const { transactions } = useGetTransactions();
+  const { name, profilePicture } = useGetUserInfo();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -20,14 +28,30 @@ const ExpenseTracker = () => {
     setTransactionType("expense");
   };
 
+  const signUserOut = async () => {
+    try {
+      await signOut(auth);
+      localStorage.clear();
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="expenses-page">
+      <div className="user-info">
+        {profilePicture && <img src={profilePicture} />}
+        <h4>{name}</h4>
+        <button onClick={signUserOut}>Sign out</button>
+        <div className="balance">
+          <h4>{name}'s balance:</h4>
+          <p>$0.00</p>
+        </div>
+      </div>
       <div className="expense-tracker">
         <div className="container">
-          <h1>Expense Tracker</h1>
-          <div className="balance">
-            <h3>Your balance $0.00</h3>
-          </div>
+          <h1> Expense Tracker</h1>
           <div className="summary">
             <div className="income">
               <h4>Income $0.00</h4>
@@ -80,6 +104,26 @@ const ExpenseTracker = () => {
       </div>
       <div className="transactions">
         <h1>Transactions</h1>
+        <ul>
+          {transactions.map((transaction) => (
+            <li key={transaction.id}>
+              <h4>{transaction.description}</h4>
+              <p>
+                ${transaction.transactionAmount}{" "}
+                <label
+                  style={{
+                    color:
+                      transaction.transactionType === "expense"
+                        ? "red"
+                        : "green",
+                  }}
+                >
+                  {transaction.transactionType}
+                </label>
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

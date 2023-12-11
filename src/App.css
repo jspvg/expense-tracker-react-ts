@@ -15,9 +15,26 @@
   gap: 100px;
 }
 
+.user-info {
+  padding: 3em 0;
+}
+
 .radio {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 15px;
+}
+
+.balance h4, .balance p {
+  margin: 0;
+}
+
+.user-info h4{
+  margin: 0.5em;
+}
+
+.user-info button {
+  padding: 0.4em;
+  margin-bottom: 0.6em;
 }
