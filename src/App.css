@@ -12,11 +12,25 @@
 .expenses-page {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 100px;
 }
 
 .user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 3em 0;
+  order: 1;
+}
+
+.expense-tracker {
+  order: 2;
+}
+
+.transactions {
+  order: 3;
 }
 
 .radio {
@@ -26,15 +40,37 @@
   gap: 15px;
 }
 
-.balance h4, .balance p {
+.balance h4,
+.balance p {
   margin: 0;
 }
 
-.user-info h4{
+.user-info h4 {
   margin: 0.5em;
 }
 
 .user-info button {
   padding: 0.4em;
   margin-bottom: 0.6em;
+}
+
+@media screen and (max-width: 782px) {
+  .expenses-page {
+    gap: 30px;
+  }
+
+  .user-info {
+    padding: 1em 0;
+  }
+}
+
+
+@media screen and (max-width: 1182px) {
+  .expense-tracker {
+    order: 3;
+  }
+
+  .transactions {
+    order: 2;
+  }
 }
