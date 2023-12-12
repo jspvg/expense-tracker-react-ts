@@ -43,7 +43,7 @@ const ExpenseTracker = () => {
   return (
     <div className="expenses-page">
       <div className="user-info">
-        {profilePicture && <img src={profilePicture} />}
+        {profilePicture && <img src={profilePicture} referrerPolicy="no-referrer"/>}
         <h4>{name}</h4>
         <button onClick={signUserOut}>Sign out</button>
         <div className="balance">
