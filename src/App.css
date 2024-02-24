@@ -65,7 +65,6 @@
   }
 }
 
-
 @media screen and (max-width: 1182px) {
   .expense-tracker {
     order: 3;
@@ -79,4 +78,9 @@
 .error {
   color: red;
   margin: auto;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-evenly;
 }
