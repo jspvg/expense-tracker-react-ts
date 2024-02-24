@@ -14,10 +14,10 @@ export const useHandleBalance = () => {
       let totalExpenses = 0;
 
       transactions.forEach((transaction) => {
-        if (transaction.transactionType === "income") {
-          totalIncome += transaction.transactionAmount;
-        } else if (transaction.transactionType === "expense") {
-          totalExpenses += transaction.transactionAmount;
+        if (transaction.type === "income") {
+          totalIncome += transaction.amount;
+        } else if (transaction.type === "expense") {
+          totalExpenses += transaction.amount;
         }
       });
 

@@ -9,18 +9,10 @@ import {
 import { useEffect, useState } from "react";
 import { db } from "../config/firebase-config";
 import { useGetUserInfo } from "./useGetUserInfo";
-
-type Transaction = {
-  userId: string;
-  description: string;
-  transactionAmount: number;
-  transactionType: string;
-  createdAt: Date;
-  id?: string;
-};
+import { TransactionData } from "../types";
 
 export const useGetTransactions = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<TransactionData[]>([]);
   const transactionCollectionRef = collection(db, "transactions");
   const { userId } = useGetUserInfo();
 
@@ -34,9 +26,9 @@ export const useGetTransactions = () => {
       );
 
       unsubcscribe = onSnapshot(queryTransactions, (snapshot) => {
-        const docs: Transaction[] = [];
+        const docs: TransactionData[] = [];
         snapshot.forEach((doc) => {
-          const data = doc.data() as Transaction;
+          const data = doc.data() as TransactionData;
           const id = doc.id;
 
           docs.push({ ...data, id });
