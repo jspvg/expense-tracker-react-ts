@@ -75,3 +75,8 @@
     order: 2;
   }
 }
+
+.error {
+  color: red;
+  margin: auto;
+}
