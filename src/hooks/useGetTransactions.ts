@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { db } from "../config/firebase-config";
 import { useGetUserInfo } from "./useGetUserInfo";
-import { TransactionData } from "../types";
+import { TransactionData } from "../utils/types";
 
 export const useGetTransactions = () => {
   const [transactions, setTransactions] = useState<TransactionData[]>([]);

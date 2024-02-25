@@ -1,26 +1,40 @@
-import { auth, provider } from "../../config/firebase-config";
-import { signInWithPopup } from "firebase/auth";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useGetUserInfo } from "../../hooks/useGetUserInfo";
+import { signInWithGoogle } from "../../utils/firebase/googleAuth";
+import { FieldValues, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "../../utils/schemas/login";
+import { loginUser } from "../../utils/firebase/emailAuth";
+import { useState } from "react";
 
 const Auth = () => {
   const navigate = useNavigate();
   const { isAuth } = useGetUserInfo();
+  const [loginError, setLoginError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((res) => {
-        const authInfo = {
-          userId: res.user.uid,
-          name: res.user.displayName,
-          profilePicture: res.user.photoURL,
-          isAuth: true,
-        };
-        localStorage.setItem("auth", JSON.stringify(authInfo));
-        navigate("/expense-tracker");
+  const onSubmit = ({ email, password }: FieldValues) => {
+    loginUser({ email, password })
+      .then((user) => {
+        alert(`${user.displayName} you have successfully logged in!`);
+        navigate("expense-tracker");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        const errorCode = error.code;
+
+        if (errorCode === "auth/wrong-password") {
+          setLoginError("Wrong password");
+        } else if (errorCode === "auth/user-not-found") {
+          setLoginError("User not found");
+        } else if(errorCode === "auth/invalid-login-credentials") {
+          setLoginError("Invalid login credentials");
+        }
       });
   };
 
@@ -29,10 +43,27 @@ const Auth = () => {
   }
 
   return (
-    <div>
-      <p>Sign in with Google to continue</p>
-      <button onClick={signInWithGoogle}>Sign in</button>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} id="login">
+      <h3>Login</h3>
+      <label htmlFor="email">email</label>
+      <input type="email" id="email" {...register("email")} />
+      <p className="error">
+        {errors.email && (errors.email.message as string)}
+      </p>
+      <label htmlFor="password">password</label>
+      <input type="password" id="password" {...register("password")} />
+      <p className="error">
+        {errors.password && (errors.password.message as string)}
+        {loginError && loginError}
+      </p>
+      <button type="submit">login</button>
+      <button onClick={() => signInWithGoogle({ navigate })}>
+        or sign in with Google
+      </button>
+      <p>
+        Don't have an account? <a href="/register">Register here!</a>
+      </p>
+    </form>
   );
 };
 

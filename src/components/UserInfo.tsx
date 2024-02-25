@@ -13,9 +13,12 @@ const UserInfo = ({
 }: UserInfoProps) => {
   return (
     <div className="user-info">
-      {profilePicture && (
-        <img src={profilePicture} referrerPolicy="no-referrer" />
-      )}
+      <div className="picture">
+        {profilePicture && (
+          <img src={profilePicture} referrerPolicy="no-referrer" />
+        )}
+      </div>
+
       <h4>{name}</h4>
       <button onClick={signUserOut}>Sign out</button>
       <div className="balance">

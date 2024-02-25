@@ -70,14 +70,56 @@ button:focus-visible {
   }
 }
 
-form {
+form.add-transaction {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
+form#register,
+form#login {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 290px;
+
+  label,
+  h3 {
+    padding-left: 8px;
+    text-align: left;
+    font-weight: bold;
+  }
+  h3 {
+    margin: auto;
+    text-align: center;
+  }
+  button {
+    border-color: #646cff;
+    margin: 4px 0;
+  }
+  p {
+    font-weight: lighter;
+    font-size: small;
+    height: 20px;
+  }
+  input {
+    border-color: #646cff;
+  }
+}
+
+@media (min-width: 600px) {
+  form#register,
+  form#login {
+    padding: 32px;
+    border: 1px solid #646cff;
+    border-radius: 12px;
+  }
+}
+
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="email"],
+input[type="password"] {
   border: 1px solid #213547;
   border-radius: 12px;
   padding: 8px;
@@ -110,6 +152,13 @@ img {
   border-radius: 50%;
   max-width: 150px;
   max-height: 150px;
+}
+
+.picture {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #213547;
 }
 
 @media (max-width: 1024px) {

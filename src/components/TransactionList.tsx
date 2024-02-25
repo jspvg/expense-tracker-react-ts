@@ -1,4 +1,4 @@
-import { TransactionData } from "../types";
+import { TransactionData } from "../utils/types";
 
 interface TransactionListProps {
   transactions: TransactionData[];
