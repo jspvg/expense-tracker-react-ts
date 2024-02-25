@@ -61,7 +61,7 @@ const Auth = () => {
         or sign in with Google
       </button>
       <p>
-        Don't have an account? <a href="/register">Register here!</a>
+        Don't have an account? <a href="register">Register here!</a>
       </p>
     </form>
   );
