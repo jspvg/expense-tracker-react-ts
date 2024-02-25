@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../../utils/firebase/googleAuth";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { FieldValues, useForm } from "react-hook-form";
-import { useState } from "react";
 import { registerSchema } from "../../utils/schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -16,14 +15,8 @@ const Register = () => {
   } = useForm({
     resolver: zodResolver(registerSchema),
   });
-  const [pswdErr, setPswdErr] = useState("");
 
-  const onSubmit = ({ email, password, passwordRepeat }: FieldValues) => {
-    if (password !== passwordRepeat) {
-      setPswdErr("Passwords do not match");
-      return;
-    }
-
+  const onSubmit = ({ email, password }: FieldValues) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -38,6 +31,8 @@ const Register = () => {
         return;
       });
   };
+  
+  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="register">
@@ -45,7 +40,7 @@ const Register = () => {
       <label htmlFor="email">email</label>
       <input type="email" id="email" {...register("email")} />
       <p className="error">
-        {errors.email && (errors.email.message as string)} {pswdErr && pswdErr}
+        {errors.email && (errors.email.message as string)}
       </p>
       <label htmlFor="password">password</label>
       <input type="password" id="password" {...register("password")} />
