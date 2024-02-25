@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../../utils/firebase/googleAuth";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { FieldValues, useForm } from "react-hook-form";
 import { registerSchema } from "../../utils/schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { registerUser } from "../../utils/firebase/emailAuth";
 
 const Register = () => {
   const navigate = useNavigate();
-  const auth = getAuth();
   const {
     register,
     handleSubmit,
@@ -16,25 +15,21 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = ({ email, password }: FieldValues) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert(`${user.email} you have successfully registered!`);
+  const onSubmit = ({ email, password, name }: FieldValues) => {
+    registerUser({ email, password, name })
+      .then((user) => {
+        alert(`${user.displayName} you have successfully registered!`);
         navigate("/");
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        alert(`Registration unsuccessful`);
-        return;
-      });
+      .catch((error) => console.error("Error registering user: ", error));
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="register">
       <h3>Register account</h3>
+      <label htmlFor="name">name</label>
+      <input type="text" id="name" {...register("name")} />
+      <p className="error">{errors.name && (errors.name.message as string)}</p>
       <label htmlFor="email">email</label>
       <input type="email" id="email" {...register("email")} />
       <p className="error">

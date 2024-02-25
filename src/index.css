@@ -154,6 +154,13 @@ img {
   max-height: 150px;
 }
 
+.picture {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #213547;
+}
+
 @media (max-width: 1024px) {
   h1 {
     font-size: 2.5em;

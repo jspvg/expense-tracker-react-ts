@@ -4,11 +4,13 @@ import { signInWithGoogle } from "../../utils/firebase/googleAuth";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../utils/schemas/login";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { loginUser } from "../../utils/firebase/emailAuth";
+import { useState } from "react";
 
 const Auth = () => {
   const navigate = useNavigate();
   const { isAuth } = useGetUserInfo();
+  const [loginError, setLoginError] = useState("");
   const {
     register,
     handleSubmit,
@@ -17,27 +19,23 @@ const Auth = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const auth = getAuth();
-
   const onSubmit = ({ email, password }: FieldValues) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert(`${user.email} you have successfully logged in!`);
-        navigate('expense-tracker');
+    loginUser({ email, password })
+      .then((user) => {
+        alert(`${user.displayName} you have successfully logged in!`);
+        navigate("expense-tracker");
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
 
-        if(errorCode === 'auth/wrong-password'){
-          console.log('wrong password');
-        } else if(errorCode === 'auth/user-not-found'){
-          console.log('User not found');
+        if (errorCode === "auth/wrong-password") {
+          setLoginError("Wrong password");
+        } else if (errorCode === "auth/user-not-found") {
+          setLoginError("User not found");
+        } else if(errorCode === "auth/invalid-login-credentials") {
+          setLoginError("Invalid login credentials");
         }
-
-        console.log(errorMessage);
-      })
+      });
   };
 
   if (isAuth) {
@@ -56,6 +54,7 @@ const Auth = () => {
       <input type="password" id="password" {...register("password")} />
       <p className="error">
         {errors.password && (errors.password.message as string)}
+        {loginError && loginError}
       </p>
       <button type="submit">login</button>
       <button onClick={() => signInWithGoogle({ navigate })}>
