@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useHandleBalance } from "../../hooks/useHandleBalance";
 import UserInfo from "../../components/UserInfo";
 import ExpenseSummary from "../../components/ExpenseSummary";
-import { Transaction } from "../../types";
+import { Transaction } from "../../utils/types";
 import ExpenseTrackerForm from "../../components/ExpenseTrackerForm";
 import TransactionList from "../../components/TransactionList";
 

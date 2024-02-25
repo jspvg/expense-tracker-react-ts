@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Transaction } from "../types";
+import { Transaction } from "../utils/types";
 
 interface ExpenseTrackerFormProps {
   onSubmit: (transaction: Transaction) => Promise<void>;

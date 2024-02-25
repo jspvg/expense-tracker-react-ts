@@ -1,6 +1,6 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import { useGetUserInfo } from "../../hooks/useGetUserInfo";
-import { signInWithGoogle } from "../../utils/firebase/google";
+import { signInWithGoogle } from "../../utils/firebase/googleAuth";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Auth = () => {
       <h3>Login</h3>
       <label htmlFor="email">email</label>
       <input type="email" id="email" />
-      <p className="error">{errortext && errortext}</p>
+      <p className="error">{errortext && errortext }</p>
       <label htmlFor="password">password</label>
       <input type="password" id="password" />
       <p className="error">{errortext && errortext}</p>
@@ -25,6 +25,7 @@ const Auth = () => {
       <button onClick={() => signInWithGoogle({ navigate })}>
        or sign in with Google
       </button>
+      <p>Don't have an account? <a href="/register">Register here!</a></p>
     </form>
   );
 };

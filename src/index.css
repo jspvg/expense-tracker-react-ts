@@ -82,6 +82,7 @@ form#login {
   flex-direction: column;
   gap: 4px;
   width: 290px;
+
   label,
   h3 {
     padding-left: 8px;
@@ -93,7 +94,7 @@ form#login {
     text-align: center;
   }
   button {
-    border-color: #213547;
+    border-color: #646cff;
     margin: 4px 0;
   }
   p {
@@ -101,13 +102,16 @@ form#login {
     font-size: small;
     height: 20px;
   }
+  input {
+    border-color: #646cff;
+  }
 }
 
 @media (min-width: 600px) {
   form#register,
   form#login {
     padding: 32px;
-    border: 2px solid #213547;
+    border: 1px solid #646cff;
     border-radius: 12px;
   }
 }
