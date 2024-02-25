@@ -31,8 +31,6 @@ const Register = () => {
         return;
       });
   };
-  
-  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="register">
