@@ -13,7 +13,7 @@ const UserInfo = ({
 }: UserInfoProps) => {
   return (
     <div className="user-info">
-      <div className="picture">
+      <div className={profilePicture ? "" : "picture"}>
         {profilePicture && (
           <img src={profilePicture} referrerPolicy="no-referrer" />
         )}
